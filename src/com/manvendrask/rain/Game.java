@@ -1,6 +1,7 @@
 package com.manvendrask.rain;
 
 import com.manvendrask.rain.graphics.Screen;
+import com.manvendrask.rain.input.Keyboard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class Game extends Canvas implements Runnable {
 
     private Thread thread;
     private JFrame frame;
+    private Keyboard key;
 
     private boolean running = false;
 
@@ -31,6 +33,9 @@ public class Game extends Canvas implements Runnable {
 
         screen = new Screen(width, height);
         frame = new JFrame();
+
+        key = new Keyboard();
+        addKeyListener(key);
     }
 
     public synchronized void start() {
@@ -88,7 +93,23 @@ public class Game extends Canvas implements Runnable {
     int y = 0;
 
     public void update() {
-        x++;
+        key.update();
+        
+        if (key.up) {
+            y--;
+        }
+
+        if (key.down) {
+            y++;
+        }
+
+        if (key.right) {
+            x++;
+        }
+
+        if (key.left) {
+            x--;
+        }
     }
 
     public void render() {
